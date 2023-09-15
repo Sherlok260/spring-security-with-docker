@@ -1,0 +1,29 @@
+version: '1'
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: p1
+    environment:
+      POSTGRES_DB: gayratjon_aka
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root___
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+  app:
+    build:
+      context: .
+      dockerfile: DockerFile
+    container_name: a1
+    ports:
+      - "8082:8082"
+    depends_on:
+      - postgres
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/gayratjon_aka
+      spring.jpa.hibernate.ddl-auto: none
+      spring.sql.init.mode: always
+
+volumes:
+  postgres-data:
